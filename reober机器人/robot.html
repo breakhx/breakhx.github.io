@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./jquery-3.3.1.js"></script>
+    <style>
+        *{
+            margin:0px;
+            padding:0px;
+        }
+        /* 设置滚动轮的样式 */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 16px;
+            background-color: #F5F5F5;
+        }
+
+        .wrapper {
+            width:400px;
+            height:700px;
+            border:1px solid #eee;
+            margin:50px auto;
+        }
+        .wrapper p{
+            width:100%;
+            text-align:center;
+            font-size:20px;
+            background-color:#42b983;
+            color:#fff;
+            line-height:35px;
+            font-weight:700;
+        }
+        .wrapper .content{
+            position:relative;
+            width:100%;
+            padding:20px;
+            height:620px;
+            /* border:1px solid #eee; */
+            box-sizing: border-box;
+        }
+        .wrapper .footer{
+            width:100%;
+            height:45px;
+            padding:5px;
+            box-sizing:border-box;
+        }
+        .wrapper .footer input{
+            width:80%;
+            height:100%;
+            outline:none;
+            padding-left:5px;
+            color:#42b983;
+            box-sizing:border-box;
+            border:1px solid #bbb;
+        }
+        .wrapper .footer button{
+            width:20%;
+            height:100%;
+            border:1px solid #eee;
+            border-radius: 3px;
+            background-color:#42b983;
+            color:#fff;
+            outline:none;
+        }
+        .wrapper .content{
+            overflow-y:scroll;
+        }
+        .wrapper .content .mine{
+            width:100%;
+            display:inline-block;
+            /* float:right; */
+        }
+        .wrapper .content .mine .img{
+            display:inline-block;
+            float:right;
+            width:32px;
+            height:32px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .wrapper .content .mine .img img{
+            width:100%;
+            height:100%;
+        }
+        .wrapper .content .mine div.say{
+            display:inline-block;
+            float:right;
+            width:140px;
+            margin-right:5px;
+        }
+        .wrapper .content .mine div.say span{
+            float:right;
+            display:inline-block;
+            background-color:#00bfff;
+            border-radius: 8px;
+            font-size:15px;
+            color:#fff;
+            font-weight:700;
+            padding:5px;
+        }
+        .wrapper .content .reobot{
+            width:100%;
+            display:inline-block;
+        }
+        .wrapper .content .reobot .Himg{
+            display:inline-block;
+            float:left;
+            width:32px;
+            height:32px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .wrapper .content .reobot .Himg img{
+            width:100%;
+            height:100%;
+        }
+        .wrapper .content .reobot .Hsay{
+            float:left;
+            margin-left:5px;
+            width:140px;
+            display:inline-block;
+        }
+        .wrapper .content .reobot .Hsay span{
+            padding:5px;
+            display:inline-block;
+            background-color:#7cfc00;
+            font-weight:700;
+            font-size:15px;
+            color:#fff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <p>reobot</p>
+        <div class="content">
+            <div class="mine">
+                <div class="img">
+                    <img src="./C.jpg">
+                </div>
+                <div class="say">
+                    <span>今天天气怎么样？</span>
+                </div>
+            </div>
+            <div class="reobot">
+                <div class="Himg">
+                    <img src="./C.jpg">
+                </div>
+                <div class="Hsay">
+                    <span>西北风3-4级 最低气温零下4度, 最高气温5度</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <input type="text"><button>发送</button>
+        </div>
+    </div>
+    <script>
+        (function() {
+            function Init() {
+                this.value = null;
+                this.bindEle();
+                this.randerDom;
+                this.AJAX;
+            }
+            Init.prototype.bindEle = function() {
+                $('input', '.footer').on('keyup', function(e) {
+                    if(e.keyCode === 13){
+                        $('button', '.footer').trigger('click')
+                    }
+                });
+                $('button','.footer').on('click', (e)=>{
+                    this.value = $('input', '.footer').val();
+                    if(this.value){
+                        this.randerDom(this.value, 'mine');
+                        this.AJAX(this.value);
+                        $('input', '.footer').val('');
+                    }
+                })
+            }
+            Init.prototype.randerDom = function(data, str) {
+                if(str === 'reobot'){
+                    var dom = $(`<div class="reobot">
+                            <div class="Himg">
+                                <img src="./C.jpg">
+                            </div>
+                            <div class="Hsay">
+                                <span>${ data }</span>
+                            </div>
+                        </div>  `)
+                }else {
+                    var dom = $(`<div class="mine">
+                            <div class="img">
+                                <img src="./C.jpg">
+                            </div>
+                            <div class="say">
+                                <span>${ data }</span>
+                            </div>
+                        </div>`)
+                }
+                $('.content', '.wrapper').append(dom);
+                // 借鉴的地方
+                $('.content').scrollTop($('.content')[0].scrollHeight);
+            }
+            Init.prototype.AJAX = function(date) {
+                let self = this;
+                $.ajax({
+                    type:'GET',
+                    url:'http://data.duyiedu.com/api/chat',
+                    data:{
+                        text:date,
+                    },
+                    context: self,
+                    success: function(data) {
+                        var obj = JSON.parse(data);
+                        this.randerDom(obj.text, 'reobot');
+                    }
+                })
+            }
+
+
+            new Init();
+        }())
+    </script>
+</body>
+</html>
