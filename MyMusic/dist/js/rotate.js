@@ -1,0 +1,1 @@
+"use strict";var deg=0,timer=null;!function(e,t){(window.player||(window.player={})).rotate=function(t){clearInterval(timer),timer=setInterval(function(){deg++,t?e(".img-wrapper").css({transform:"rotateZ(".concat(deg,"deg)"),transition:"none"}):e(".img-wrapper").css({transform:"rotateZ(".concat(deg,"deg)"),transition:"all 1s ease-out"})},100)}}(window.Zepto);

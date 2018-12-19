@@ -1,0 +1,1 @@
+"use strict";var nowdata,len,nowIndex=0;!function(n,e){n.ajax({type:"GET",url:"../mock/data.json",success:function(n){len=(nowdata=n).length,e.render(n[nowIndex]),e.bind(n[nowIndex])},error:function(){}})}(window.Zepto,window.player||(window.player={}));
