@@ -5,7 +5,7 @@ let len;
 (function ($, root) {
 $.ajax({
     type: "GET",
-    url: "../mock/data.json",
+    url: "/MyMusic/dist/mock/data.json",
     success (data) {
         nowdata = data;
         len = data.length;
