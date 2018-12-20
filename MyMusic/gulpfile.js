@@ -53,7 +53,7 @@ gulp.task("css", function () {
 })
 
 gulp.task("js", function () {
-    let page = gulp.src(folder.src + ["!js/*.min.js", "js/*"])   // 读取js文件
+    let page = gulp.src(['src/js/*.js', '!src/js/*.min.js'])   // 读取js文件
         .pipe(connect.reload()) // 重新刷新
         .pipe(babel({
             presets: [ "@babel/env" ]

@@ -1,1 +1,1 @@
-"use strict";window.Zepto,(window.player||(window.player={})).audio=function(i){return new Audio(i.audio)};
+"use strict";!function(o,i){(window.player||(window.player={})).audio=function(i){if(i.audio){var n=new Audio(i.audio);return o(n).on("ended",function(i){o(".next").trigger("click")}),n}}}(window.Zepto);

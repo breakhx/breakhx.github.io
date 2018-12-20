@@ -11,6 +11,7 @@ $.ajax({
         len = data.length;
         root.render(data[nowIndex]);
         root.bind(data[nowIndex]);
+        root.renderList(data);
     },
     error () {
     }

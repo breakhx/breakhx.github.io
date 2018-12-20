@@ -1,1 +1,1 @@
-"use strict";var nowdata,len,nowIndex=0;!function(n,e){n.ajax({type:"GET",url:"../mock/data.json",success:function(n){len=(nowdata=n).length,e.render(n[nowIndex]),e.bind(n[nowIndex])},error:function(){}})}(window.Zepto,window.player||(window.player={}));
+"use strict";var nowdata,len,nowIndex=0;!function(n,e){n.ajax({type:"GET",url:"/MyMusic/dist/mock/data.json",success:function(n){len=(nowdata=n).length,e.render(n[nowIndex]),e.bind(n[nowIndex]),e.renderList(n)},error:function(){}})}(window.Zepto,window.player||(window.player={}));
