@@ -1,8 +1,8 @@
 let status = "stop";
 (function ($, root) {
     function bindEvent (data) {
-        let Naudio = root.audio(nowdata[nowIndex]);
-        $(".like").on("click", function () {
+        $(".like").on("click", function (e) {
+            e.stopPropagation();
             $(this).toggleClass("liking");
         });
         $(".prev").on("click", function (e) {
@@ -18,7 +18,7 @@ let status = "stop";
             }
             clearInterval(timer);
             deg = 0;
-            root.rotate(true);
+            root.rotate(false);
             Naudio.pause();
             Naudio = root.audio(nowdata[nowIndex]);
             Naudio.play();
@@ -37,7 +37,7 @@ let status = "stop";
             }
             clearInterval(timer);
             deg = 0;
-            root.rotate(true);
+            root.rotate(false);
             Naudio.pause();
             Naudio = root.audio(nowdata[nowIndex]);
             Naudio.play();
@@ -48,7 +48,7 @@ let status = "stop";
             if (status === "stop") {
                 Naudio.play();
                 status = "play";
-                root.rotate();
+                root.rotate(false);
             } else if (status === "play") {
                 Naudio.pause();
                 status = "stop";
@@ -65,6 +65,19 @@ let status = "stop";
             $(".song-list").removeClass("item-temp");
             $(".list").removeClass("playlist");
         })
+        $(".song-list").on("click", ".item",function (e) {
+            e.stopPropagation();
+            $(".item").removeClass("item-bac")
+            $(this).addClass("item-bac");
+            let index = $(this).index();
+            Naudio.pause();
+            Naudio = root.audio(nowdata[index]);
+            root.render( nowdata[index] );
+            Naudio.play();
+            root.rotate(false);
+            $(".play").addClass("pause");
+        })
+
     }
     
     root.bind = bindEvent;
